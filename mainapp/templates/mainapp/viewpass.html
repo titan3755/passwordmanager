@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sticky-footer/">
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>Webpage</title>
+    {% endif %}
+</head>
+<body class="d-flex flex-column h-100">
+    <style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+        }
+    }
+    /* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+    .container {
+    width: auto;
+    max-width: 680px;
+    padding: 0 15px;
+    }
+
+        .login-msg {
+            word-spacing: 1px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .main-title {
+            font-weight: 700;
+            font-size: 25px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .cont {
+            background-color: rgb(228, 228, 228);
+            padding: 30px;
+        }
+        .main-content {
+            font-weight: 500;
+            font-style: italic;
+        }
+        .main-input-container {
+            padding: 20px;
+            background-color: rgb(172, 172, 172);
+        }
+        .main-cont-full {
+            
+            background-color: rgb(255, 49, 49);
+            padding: 20px;
+        }
+        .main-pass-view {
+            background-color: rgb(236, 236, 236);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px; margin-bottom: 10px;
+        }
+        .view-pass-btn {
+            padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;
+            margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;
+            width: 180px;
+        }
+        .main-update {
+            background-color: rgb(255, 255, 255);
+            color: black;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark text-white">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white main-title" href="">Password Manager Dashboard</a>
+        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-white"></span>
+        </button>
+        <div class="collapse navbar-collapse text-white" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-white">
+            <li class="nav-item text-white">
+                <a class="nav-link active text-white" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item text-white">
+                <a class="nav-link text-white" href="/about">About</a>
+            </li>
+            <li class="nav-item text-white">
+                <a class="nav-link text-white" href="/view">View Passwords</a>
+            </li>
+            <li class="nav-item text-white">
+                <a class="nav-link text-white" href="/passwords">Add Passwords</a>
+            </li>
+            <li class="nav-item text-white">
+                <a class="nav-link text-white" href="/logout">Logout</a>
+            </li>
+            </ul>
+            <span class="navbar-text text-primary mx-auto text-center login-msg">
+                Logged in as <i class="text-white">{{request.user}}</i>
+            </span>
+            
+        </div>
+        </div>
+    </nav>
+    <div class="cont">
+        <h1>View Passwords</h1>
+        <p class="lead main-content">View your stored usernames and password here. Click the view button and a modal containing your usernames and passwords will appear</p>
+    </div>
+    <!-- Button trigger modal -->
+
+<div class="container-fluid main-cont-full text-center">
+    <button type="button" class="btn btn-primary text-center view-pass-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        View
+    </button>
+    <button type="button" class="btn btn-primary text-center view-pass-btn" data-bs-toggle="modal" data-bs-target="#newModal">
+        Delete or Update
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Stored Usernames and Passwords</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        {% for x in main %}
+        <div class="container-fluid text-center text-dark main-pass-view">
+            <h3>ID of Entry - {{x.id}}</h3>
+            <p class="lead main-content"><b>Username:</b> {{x.username}}</p>
+            <p class="lead main-content"><b>Password:</b> {{x.password}}</p>
+            <hr>
+            <b><p class="h5 description-para">{{x.description}}</p></b>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="newModalLabel">Update or Delete Usernames and Passwords</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <div class="container main-update">
+            <h2>Available ID's</h2>
+            <hr>
+            <h4>
+            {% for x in main %}
+            
+                {{x.id}}
+            
+            {% endfor %}
+            </h4>
+            <hr>
+        </div>
+        <form action="delete/" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3 mt-2 mb-2">
+                <input name='id-num' type="number" class="form-control" placeholder="Delete by ID" aria-label="ID Deletion" aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="submit" id="button-addon2">Delete</button>
+            </div>
+        </form>
+        <form action="update/" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3 mt-2 mb-2">
+                <input name='id-num' type="number" class="form-control" placeholder="ID for update" aria-label="ID Update" aria-describedby="button-addon2">
+                <input name='username-field' type="text" class="form-control" placeholder="Username for update" aria-label="Username Update" aria-describedby="button-addon2">
+                <input name='password-field' type="password" class="form-control" placeholder="Password for update" aria-label="Password Update" aria-describedby="button-addon2">
+                <input name='description-field' type="text" class="form-control" placeholder="Desc for update" aria-label="Desc Update" aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="submit" id="button-addon2">Update Info</button>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+        
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
+    <footer class="footer mt-auto py-3 bg-dark text-white">
+    <div class="container text-center">
+        <span class="fw-bold">Copyright &copy; Password Manager</span>
+    </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+</body>
+</html>
